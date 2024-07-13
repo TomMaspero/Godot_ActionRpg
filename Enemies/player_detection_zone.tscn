@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3 uid="uid://gyu7bexjy3ja"]
+
+[ext_resource type="Script" path="res://Enemies/player_detection_zone.gd" id="1_ls3fo"]
+
+[node name="PlayerDetectionZone" type="Area2D"]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("1_ls3fo")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="body_shape_entered" from="." to="." method="_on_body_shape_entered"]
+[connection signal="body_shape_exited" from="." to="." method="_on_body_shape_exited"]
