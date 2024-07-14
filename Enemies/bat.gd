@@ -12,6 +12,7 @@ enum {
 @onready var stats = $Stats
 @onready var playerDetectionZone = $PlayerDetectionZone
 @onready var sprite = $AnimatedSprite
+@onready var hurtbox = $Hurtbox
 
 @export var ACCELERATION = 300
 @export var MAX_SPEED = 40
@@ -52,6 +53,8 @@ func _on_hurtbox_area_entered(area):
 	stats.health -= area.damage # this is actually calling the set function
 	var direction = (position - area.owner.position).normalized()
 	knockback = direction * KNOCKBACKDISTANCE
+	hurtbox.create_hit_effect();
+	
 
 func seek_player():
 	if playerDetectionZone.can_see_player():
