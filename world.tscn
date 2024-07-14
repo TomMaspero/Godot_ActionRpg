@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://og0ai23gsum3"]
+[gd_scene load_steps=14 format=3 uid="uid://og0ai23gsum3"]
 
 [ext_resource type="Texture2D" uid="uid://dt8gtuxegdbgk" path="res://World/GrassBackground.png" id="1_f7r3v"]
 [ext_resource type="PackedScene" uid="uid://cc0i2qax6nccj" path="res://World/bush.tscn" id="2_aaqph"]
@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://dm5nay0vujty8" path="res://World/CliffTileset.png" id="3_prlqp"]
 [ext_resource type="PackedScene" uid="uid://cspb3ewyf283q" path="res://World/grass.tscn" id="6_xmw40"]
 [ext_resource type="PackedScene" uid="uid://wjnhgn5uk6lx" path="res://Enemies/bat.tscn" id="7_r21f7"]
+[ext_resource type="PackedScene" uid="uid://djia1qwli4hqn" path="res://UI/health_ui.tscn" id="8_q7h1r"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_bmanb"]
 texture = ExtResource("2_udj2h")
@@ -854,7 +855,7 @@ layer_0/tile_data = PackedInt32Array(0, 327680, 1, 1, 65536, 2, 2, 65536, 2, 3, 
 y_sort_enabled = true
 
 [node name="Player" parent="YSort" instance=ExtResource("2_we01a")]
-position = Vector2(208, 384)
+position = Vector2(217, 113)
 
 [node name="Camera2D" type="Camera2D" parent="YSort/Player"]
 limit_left = 0
@@ -1863,7 +1864,13 @@ collision_mask = 0
 position = Vector2(440, 376)
 
 [node name="Bat2" parent="YSort" instance=ExtResource("7_r21f7")]
-position = Vector2(248, 392)
+position = Vector2(72, 96)
 
 [node name="Bat3" parent="YSort" instance=ExtResource("7_r21f7")]
 position = Vector2(408, 424)
+
+[node name="HealthUI" parent="." instance=ExtResource("8_q7h1r")]
+offset_left = 136.0
+offset_top = 56.0
+offset_right = 200.0
+offset_bottom = 83.0

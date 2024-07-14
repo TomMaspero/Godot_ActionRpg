@@ -27,7 +27,6 @@ var input_vector = Vector2.ZERO #I had to make it a global variable because of t
 var roll_vector = Vector2.DOWN
 var stats = PlayerStats
 
-
 func _physics_process(delta):
 	match state:
 		MOVE:
@@ -86,7 +85,6 @@ func roll_state(delta):
 	hurtbox.start_invincibility(0.5); #CHECK THE ACTUAL ROLL DURATION!
 	move_and_slide()
 	
-
 func attack_animation_finished():
 	state = MOVE
 
