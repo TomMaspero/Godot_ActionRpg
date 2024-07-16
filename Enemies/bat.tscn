@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://wjnhgn5uk6lx"]
+[gd_scene load_steps=21 format=3 uid="uid://wjnhgn5uk6lx"]
 
 [ext_resource type="Script" path="res://Enemies/bat.gd" id="1_3cf26"]
 [ext_resource type="Texture2D" uid="uid://bn5k0g1yfym38" path="res://Enemies/Bat.png" id="1_6o7xc"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://gyu7bexjy3ja" path="res://Enemies/player_detection_zone.tscn" id="6_psi4d"]
 [ext_resource type="PackedScene" uid="uid://cv370qfis5v1k" path="res://Hitboxes and Hurtboxes/hitbox.tscn" id="7_h1gfh"]
 [ext_resource type="PackedScene" uid="uid://dtogh0gwu3am8" path="res://Overlap/soft_collision.tscn" id="8_n438a"]
+[ext_resource type="PackedScene" uid="uid://brwggeedalve6" path="res://Enemies/wander_controller.tscn" id="9_nvnqv"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_h26ws"]
 atlas = ExtResource("1_6o7xc")
@@ -83,9 +84,11 @@ offset = Vector2(0, -12)
 texture = ExtResource("2_3w1i8")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 shape = SubResource("CircleShape2D_kpbvf")
 
 [node name="Hurtbox" parent="." instance=ExtResource("3_6hsir")]
+visible = false
 collision_mask = 8
 
 [node name="CollisionShape2D" parent="Hurtbox" index="0"]
@@ -96,6 +99,7 @@ shape = SubResource("CapsuleShape2D_j14ui")
 max_health = 2
 
 [node name="PlayerDetectionZone" parent="." instance=ExtResource("6_psi4d")]
+visible = false
 
 [node name="CollisionShape2D" parent="PlayerDetectionZone" index="0"]
 modulate = Color(1, 1, 1, 0.211765)
@@ -105,14 +109,18 @@ shape = SubResource("CircleShape2D_uxng3")
 collision_layer = 2
 
 [node name="CollisionShape2D" parent="Hitbox" index="0"]
+visible = false
 position = Vector2(0, -15)
 shape = SubResource("CircleShape2D_uo6e6")
 
 [node name="SoftCollision" parent="." instance=ExtResource("8_n438a")]
+visible = false
 
 [node name="CollisionShape2D" parent="SoftCollision" index="0"]
 shape = SubResource("CircleShape2D_gldtc")
 debug_color = Color(0.808579, 0.413347, 1.92523e-07, 0.42)
+
+[node name="WanderController" parent="." instance=ExtResource("9_nvnqv")]
 
 [connection signal="area_entered" from="Hurtbox" to="." method="_on_hurtbox_area_entered"]
 [connection signal="no_health" from="Stats" to="." method="_on_stats_no_health"]
