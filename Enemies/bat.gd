@@ -1,6 +1,7 @@
 extends CharacterBody2D
 
 const KNOCKBACKDISTANCE = 130;
+const SOFTCOLLISIONAMPLITUDE = 400;
 const EnemyDeathEffect = preload("res://Effects/enemy_death_effect.tscn") 
 
 enum {
@@ -13,6 +14,7 @@ enum {
 @onready var playerDetectionZone = $PlayerDetectionZone
 @onready var sprite = $AnimatedSprite
 @onready var hurtbox = $Hurtbox
+@onready var softCollision = $SoftCollision
 
 @export var ACCELERATION = 300
 @export var MAX_SPEED = 40
@@ -46,7 +48,8 @@ func _physics_process(delta):
 				sprite.flip_h = velocity.x < 0
 			else:
 				state = IDLE
-				
+	if softCollision.is_colliding():
+		velocity += softCollision.get_push_vector() * delta * SOFTCOLLISIONAMPLITUDE;
 	move_and_slide()
 	
 func _on_hurtbox_area_entered(area):

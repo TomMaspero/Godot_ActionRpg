@@ -837,7 +837,7 @@ sources/0 = SubResource("TileSetAtlasSource_2n7wg")
 
 [node name="Background" type="Sprite2D" parent="."]
 texture_repeat = 2
-position = Vector2(480, 288)
+position = Vector2(455, 253)
 texture = ExtResource("1_f7r3v")
 region_enabled = true
 region_rect = Rect2(0, 0, 960, 576)
@@ -1884,3 +1884,60 @@ position = Vector2(72, 96)
 
 [node name="Bat3" parent="YSort" instance=ExtResource("7_r21f7")]
 position = Vector2(408, 424)
+
+[node name="Bat4" parent="YSort" instance=ExtResource("7_r21f7")]
+position = Vector2(661, 306)
+
+[node name="Bat5" parent="YSort" instance=ExtResource("7_r21f7")]
+position = Vector2(638, 292)
+
+[node name="Bat6" parent="YSort" instance=ExtResource("7_r21f7")]
+position = Vector2(657, 282)
+
+[node name="Bat7" parent="YSort" instance=ExtResource("7_r21f7")]
+position = Vector2(676, 294)
+
+[node name="Bat8" parent="YSort" instance=ExtResource("7_r21f7")]
+position = Vector2(641, 315)
+
+[node name="Bat9" parent="YSort" instance=ExtResource("7_r21f7")]
+position = Vector2(661, 326)
+
+[node name="Bat10" parent="YSort" instance=ExtResource("7_r21f7")]
+position = Vector2(681, 319)
+
+[node name="Bat11" parent="YSort" instance=ExtResource("7_r21f7")]
+position = Vector2(697, 303)
+
+[node name="Bat12" parent="YSort" instance=ExtResource("7_r21f7")]
+position = Vector2(693, 277)
+
+[node name="Bat13" parent="YSort" instance=ExtResource("7_r21f7")]
+position = Vector2(674, 260)
+
+[node name="Bat14" parent="YSort" instance=ExtResource("7_r21f7")]
+position = Vector2(648, 254)
+
+[node name="Bat15" parent="YSort" instance=ExtResource("7_r21f7")]
+position = Vector2(629, 265)
+
+[node name="Bat16" parent="YSort" instance=ExtResource("7_r21f7")]
+position = Vector2(617, 287)
+
+[node name="Bat17" parent="YSort" instance=ExtResource("7_r21f7")]
+position = Vector2(620, 311)
+
+[node name="Bat18" parent="YSort" instance=ExtResource("7_r21f7")]
+position = Vector2(627, 331)
+
+[node name="Bat19" parent="YSort" instance=ExtResource("7_r21f7")]
+position = Vector2(645, 340)
+
+[node name="Bat20" parent="YSort" instance=ExtResource("7_r21f7")]
+position = Vector2(667, 349)
+
+[node name="Bat21" parent="YSort" instance=ExtResource("7_r21f7")]
+position = Vector2(686, 343)
+
+[node name="Bat22" parent="YSort" instance=ExtResource("7_r21f7")]
+position = Vector2(701, 326)

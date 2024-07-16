@@ -1,11 +1,16 @@
-[gd_scene load_steps=4 format=3 uid="uid://cc0i2qax6nccj"]
+[gd_scene load_steps=6 format=3 uid="uid://cc0i2qax6nccj"]
 
 [ext_resource type="Texture2D" uid="uid://b6eyjqj8et5gg" path="res://World/Bush.png" id="1_6dtv8"]
 [ext_resource type="Texture2D" uid="uid://b87mtwjwu0mjl" path="res://Shadows/LargeShadow.png" id="2_hh6ve"]
+[ext_resource type="PackedScene" uid="uid://dtogh0gwu3am8" path="res://Overlap/soft_collision.tscn" id="3_fo42q"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0unvt"]
 radius = 8.0
 height = 26.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_uw33p"]
+radius = 12.0
+height = 24.0
 
 [node name="Bush" type="StaticBody2D"]
 
@@ -21,3 +26,13 @@ texture = ExtResource("1_6dtv8")
 position = Vector2(0, 3)
 rotation = 1.5708
 shape = SubResource("CapsuleShape2D_0unvt")
+
+[node name="SoftCollision" parent="." instance=ExtResource("3_fo42q")]
+
+[node name="CollisionShape2D" parent="SoftCollision" index="0"]
+position = Vector2(0, 2)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_uw33p")
+debug_color = Color(0.858194, 0.357776, 0.183593, 0.42)
+
+[editable path="SoftCollision"]
