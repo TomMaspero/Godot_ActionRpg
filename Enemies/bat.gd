@@ -18,16 +18,12 @@ enum {
 @onready var wanderController = $WanderController
 
 @export var ACCELERATION = 300
-@export var MAX_SPEED = 40
+@export var MAX_SPEED = 60
 @export var FRICTION = 200
-
-const DIRECTION_OFFSET = 1.75
+@export var WANDER_TOLERANCE = 4
 
 var knockback = Vector2.ZERO
-var state = CHASE
-
-func _ready():
-	pass
+var state = pick_random_state([IDLE, WANDER, CHASE]);
 
 func _physics_process(delta):
 	knockback = knockback.move_toward(Vector2.ZERO, FRICTION * delta);
@@ -38,37 +34,41 @@ func _physics_process(delta):
 	match state:
 		IDLE:
 			velocity = velocity.move_toward(Vector2.ZERO, FRICTION * delta);
-			seek_player();
 			if wanderController.get_time_left() == 0:
-				state = pick_random_state([IDLE, WANDER]);
-				wanderController.start_wander_timer(randi_range(1,3));
+				update_wander();
+			seek_player();
 		WANDER:
-			seek_player();
 			if wanderController.get_time_left() == 0:
-				state = pick_random_state([IDLE, WANDER]);
-				wanderController.start_wander_timer(randi_range(1,3));
-			var direction = global_position.direction_to(wanderController.target_position)
-			velocity = velocity.move_toward(direction * MAX_SPEED, ACCELERATION*delta)
-			sprite.flip_h = velocity.x < 0
-			
+				update_wander();
+			accelerate_towards(wanderController.target_position, delta);
+			if global_position.distance_to(wanderController.target_position) <= WANDER_TOLERANCE:
+				update_wander();
+			seek_player();
 		CHASE:
 			var player = playerDetectionZone.player
 			if player != null:
-				var direction = global_position.direction_to(player.global_position)*DIRECTION_OFFSET
-				velocity = velocity.move_toward(direction * MAX_SPEED, ACCELERATION*delta)
-				sprite.flip_h = velocity.x < 0
+				accelerate_towards(player.global_position, delta);
 			else:
-				state = IDLE
+				update_wander();
 	if softCollision.is_colliding():
 		velocity += softCollision.get_push_vector() * delta * SOFTCOLLISIONAMPLITUDE;
 	move_and_slide()
 	
+func accelerate_towards(point, delta):
+	var direction = global_position.direction_to(point);
+	velocity = velocity.move_toward(direction * MAX_SPEED, ACCELERATION * delta);
+	sprite.flip_h = velocity.x < 0;
+
+func update_wander():
+	state = pick_random_state([IDLE, WANDER]);
+	if state == WANDER:
+		wanderController.start_wander_timer(randi_range(1,3));
+
 func _on_hurtbox_area_entered(area):
 	stats.health -= area.damage # this is actually calling the set function
 	var direction = (position - area.owner.position).normalized()
 	knockback = direction * KNOCKBACKDISTANCE
 	hurtbox.create_hit_effect();
-	
 
 func seek_player():
 	if playerDetectionZone.can_see_player():
