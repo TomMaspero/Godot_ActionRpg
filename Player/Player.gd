@@ -1,5 +1,7 @@
 extends CharacterBody2D
 
+const PlayerHurtSound = preload("res://Player/player_hurt_sound.tscn");
+
 @export var ACCELERATION = 1750
 @export var MAX_SPEED = 100
 @export var ROLL_SPEED = 115
@@ -97,3 +99,5 @@ func _on_hurtbox_area_entered(area):
 		stats.health -= 1;
 		hurtbox.start_invincibility(1);
 		hurtbox.create_hit_effect();
+		var playerHurtSound = PlayerHurtSound.instantiate();
+		get_tree().current_scene.add_child(playerHurtSound)
