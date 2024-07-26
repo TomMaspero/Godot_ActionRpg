@@ -1,13 +1,18 @@
-[gd_scene load_steps=62 format=3 uid="uid://0p3b3v5v6kvn"]
+[gd_scene load_steps=68 format=3 uid="uid://0p3b3v5v6kvn"]
 
 [ext_resource type="Script" path="res://Player/Player.gd" id="1_xn30x"]
 [ext_resource type="Texture2D" uid="uid://c6wlfymv0gg7m" path="res://Shadows/MediumShadow.png" id="2_rtflm"]
 [ext_resource type="Texture2D" uid="uid://b1lopj2n1ftn" path="res://Player/Player.png" id="2_ymvpj"]
 [ext_resource type="PackedScene" uid="uid://cv370qfis5v1k" path="res://Hitboxes and Hurtboxes/hitbox.tscn" id="3_4gpfl"]
+[ext_resource type="Shader" path="res://Player/WhiteColor.gdshader" id="3_p6cj7"]
 [ext_resource type="Script" path="res://Player/SwordHitbox.gd" id="4_4nov8"]
 [ext_resource type="AudioStream" uid="uid://c67tcfgve6kb7" path="res://Music and Sounds/Swipe.wav" id="4_4upq1"]
 [ext_resource type="PackedScene" uid="uid://ctwmjxnni888a" path="res://Hitboxes and Hurtboxes/hurtbox.tscn" id="5_ssbtw"]
 [ext_resource type="AudioStream" uid="uid://cgpyl6q7jg7md" path="res://Music and Sounds/Evade.wav" id="5_vb6ns"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_yi7sv"]
+shader = ExtResource("3_p6cj7")
+shader_parameter/active = false
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_qbp7n"]
 radius = 4.0
@@ -831,6 +836,61 @@ graph_offset = Vector2(-484, -44)
 radius = 5.0
 height = 16.0
 
+[sub_resource type="Animation" id="Animation_ixrpi"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:material:shader_parameter/active")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_jww1u"]
+resource_name = "Start"
+length = 0.2
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:material:shader_parameter/active")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="Animation" id="Animation_65378"]
+resource_name = "Stop"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:material:shader_parameter/active")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_kn5qj"]
+_data = {
+"RESET": SubResource("Animation_ixrpi"),
+"Start": SubResource("Animation_jww1u"),
+"Stop": SubResource("Animation_65378")
+}
+
 [node name="Player" type="CharacterBody2D"]
 collision_layer = 2
 script = ExtResource("1_xn30x")
@@ -841,6 +901,7 @@ position = Vector2(0, 1)
 texture = ExtResource("2_rtflm")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_yi7sv")
 position = Vector2(0, -9)
 texture = ExtResource("2_ymvpj")
 hframes = 60
@@ -870,6 +931,7 @@ parameters/Roll/blend_position = Vector2(0, 1)
 parameters/Run/blend_position = Vector2(0, 1)
 
 [node name="HitboxPivot" type="Marker2D" parent="."]
+visible = false
 position = Vector2(0, -4)
 
 [node name="SwordHitbox" parent="HitboxPivot" instance=ExtResource("3_4gpfl")]
@@ -882,6 +944,7 @@ shape = SubResource("CapsuleShape2D_shy5i")
 disabled = true
 
 [node name="Hurtbox" parent="." instance=ExtResource("5_ssbtw")]
+visible = false
 collision_mask = 2
 
 [node name="CollisionShape2D" parent="Hurtbox" index="0"]
@@ -890,7 +953,15 @@ shape = SubResource("CapsuleShape2D_8nyah")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 
+[node name="BlinkAnimationPlayer" type="AnimationPlayer" parent="."]
+reset_on_save = false
+libraries = {
+"": SubResource("AnimationLibrary_kn5qj")
+}
+
 [connection signal="area_entered" from="Hurtbox" to="." method="_on_hurtbox_area_entered"]
+[connection signal="invincibility_ended" from="Hurtbox" to="." method="_on_hurtbox_invincibility_ended"]
+[connection signal="invincibility_started" from="Hurtbox" to="." method="_on_hurtbox_invincibility_started"]
 
 [editable path="HitboxPivot/SwordHitbox"]
 [editable path="Hurtbox"]

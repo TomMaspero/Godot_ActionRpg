@@ -16,6 +16,7 @@ enum {
 @onready var hurtbox = $Hurtbox
 @onready var softCollision = $SoftCollision
 @onready var wanderController = $WanderController
+@onready var animationPlayer = $AnimationPlayer
 
 @export var ACCELERATION = 300
 @export var MAX_SPEED = 60
@@ -69,6 +70,7 @@ func _on_hurtbox_area_entered(area):
 	var direction = (position - area.owner.position).normalized()
 	knockback = direction * KNOCKBACKDISTANCE
 	hurtbox.create_hit_effect();
+	hurtbox.start_invincibility(0.4);
 
 func seek_player():
 	if playerDetectionZone.can_see_player():
@@ -83,3 +85,9 @@ func _on_stats_no_health():
 	var enemyDeathEffect = EnemyDeathEffect.instantiate();
 	get_parent().add_child(enemyDeathEffect);
 	enemyDeathEffect.global_position = global_position;
+
+func _on_hurtbox_invincibility_started():
+	animationPlayer.play("Start");
+
+func _on_hurtbox_invincibility_ended():
+	animationPlayer.play("Stop");

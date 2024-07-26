@@ -16,6 +16,7 @@ enum {
 var state = MOVE
 
 @onready var animationPlayer = $AnimationPlayer
+@onready var blinkAnimationPLayer = $BlinkAnimationPlayer
 @onready var animationTree : AnimationTree = $AnimationTree
 @onready var swordHitbox = $HitboxPivot/SwordHitbox
 @onready var hurtbox = $Hurtbox
@@ -96,8 +97,14 @@ func roll_animation_finished():
 
 func _on_hurtbox_area_entered(area):
 	if hurtbox.invincible == false:
-		stats.health -= 1;
+		stats.health -= area.damage;
 		hurtbox.start_invincibility(1);
 		hurtbox.create_hit_effect();
 		var playerHurtSound = PlayerHurtSound.instantiate();
 		get_tree().current_scene.add_child(playerHurtSound)
+
+func _on_hurtbox_invincibility_started():
+	blinkAnimationPLayer.play("Start");
+
+func _on_hurtbox_invincibility_ended():
+	blinkAnimationPLayer.play("Stop");
